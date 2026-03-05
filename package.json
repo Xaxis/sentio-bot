@@ -1,11 +1,11 @@
 {
-    "name": "sentio",
+    "name": "sentio.bot",
     "version": "1.0.0",
     "description": "Sentio — Interactive 3D consciousness dynamics simulator based on the Modelling Consciousness framework",
     "homepage": "https://sentio.bot",
     "repository": {
         "type": "git",
-        "url": "https://github.com/wilneeley/sentio.git"
+        "url": "https://github.com/Xaxis/sentio-bot.git"
     },
     "private": true,
     "scripts": {
