@@ -10,7 +10,7 @@ import { DEFAULT_CASE_STUDY } from "@/lib/presets";
 
 const EQUILIBRIUM_THRESHOLD = 0.0003; // |ΔQ_i/frame| below which we call it converged
 
-export default function QualiaSimulator() {
+export default function SentioSimulator() {
     const [activeStudy, setActiveStudy] = useState<CaseStudy>(DEFAULT_CASE_STUDY);
 
     // ── Authoritative simulation state (updated every RAF frame) ────────────
@@ -47,7 +47,6 @@ export default function QualiaSimulator() {
             lastTime = now;
 
             // Only advance ODE when playing AND user is not holding a Q slider.
-            // Holding a slider pauses integration so the value doesn't fight the user.
             if (simRef.current.isPlaying && !isDraggingQ.current) {
                 const { params } = simRef.current;
                 const dt = Math.min(wallDelta * params.speed, 0.08);
@@ -61,7 +60,6 @@ export default function QualiaSimulator() {
 
                 // While the user is dragging, don't overwrite their slider position.
                 if (!isDraggingQ.current) {
-                    // Equilibrium check: max absolute change across all Q_i
                     const maxDelta = Q.reduce((m, q, i) => Math.max(m, Math.abs(q - prevQRef.current[i])), 0);
                     setAtEquilibrium(maxDelta < EQUILIBRIUM_THRESHOLD && simRef.current.isPlaying);
                     prevQRef.current = [...Q] as QValues;
@@ -120,14 +118,13 @@ export default function QualiaSimulator() {
         newQ[index] = value;
         simRef.current.Q = newQ;
         setDisplayQ([...newQ]);
-        // Keep C score live while slider is held
         setDisplayC(computeC(newQ, simRef.current.W, simRef.current.params));
         setAtEquilibrium(false);
     }, []);
 
     const handleParamsChange = useCallback((params: SimParams) => {
         simRef.current.params = params;
-        setDisplayParams({ ...params }); // keep Controls sliders in sync
+        setDisplayParams({ ...params });
     }, []);
 
     const cColor = displayC > 0.65 ? "#3b82f6" : displayC > 0.38 ? "#f59e0b" : "#475569";
@@ -136,7 +133,7 @@ export default function QualiaSimulator() {
         <div className="relative w-screen h-screen overflow-hidden bg-black">
             {/* ── Full-screen 3D canvas ── */}
             <div className="absolute inset-0">
-                <Scene3D simRef={simRef} showLabels={showLabels} />
+                <Scene3D simRef={simRef} showLabels={showLabels} nodeDescriptions={activeStudy.nodeDescriptions} />
             </div>
 
             {/* ── Top HUD ── */}
@@ -148,7 +145,7 @@ export default function QualiaSimulator() {
                 <div className="flex flex-col items-center gap-0">
                     {/* App name */}
                     <span className="text-[9px] font-semibold uppercase tracking-[0.3em] text-slate-600">
-                        Qualia Bot
+                        Sentio
                     </span>
 
                     {/* Active archetype chip */}

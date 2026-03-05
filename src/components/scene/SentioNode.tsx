@@ -1,29 +1,31 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
 import * as THREE from "three";
 import { SimState, CriterionMeta } from "@/lib/types";
 import { sigmoidInteraction } from "@/lib/simulation";
 
-interface QualiaNodeProps {
+interface SentioNodeProps {
     index: number;
     meta: CriterionMeta;
     simRef: React.MutableRefObject<SimState>;
     showLabels: boolean;
+    description?: string;
 }
 
 const BASE_RADIUS = 0.22;
 const HALO_RADIUS = 0.38;
 
-export function QualiaNode({ index, meta, simRef, showLabels }: QualiaNodeProps) {
+export function SentioNode({ index, meta, simRef, showLabels, description }: SentioNodeProps) {
     const coreRef = useRef<THREE.Mesh>(null);
     const halo1Ref = useRef<THREE.Mesh>(null);
     const halo2Ref = useRef<THREE.Mesh>(null);
     const lightRef = useRef<THREE.PointLight>(null);
     const matRef = useRef<THREE.MeshStandardMaterial>(null);
     const haloMatRef = useRef<THREE.MeshStandardMaterial>(null);
+    const [hovered, setHovered] = useState(false);
 
     const color = new THREE.Color(meta.color);
 
@@ -103,8 +105,12 @@ export function QualiaNode({ index, meta, simRef, showLabels }: QualiaNodeProps)
                 />
             </mesh>
 
-            {/* Core sphere */}
-            <mesh ref={coreRef}>
+            {/* Core sphere — interactive hit target */}
+            <mesh
+                ref={coreRef}
+                onPointerOver={(e) => { e.stopPropagation(); setHovered(true); }}
+                onPointerOut={() => setHovered(false)}
+            >
                 <sphereGeometry args={[BASE_RADIUS, 32, 32]} />
                 <meshStandardMaterial
                     ref={matRef}
@@ -129,7 +135,46 @@ export function QualiaNode({ index, meta, simRef, showLabels }: QualiaNodeProps)
                     </div>
                 </Html>
             )}
+
+            {/* Hover tooltip */}
+            {hovered && description && (
+                <Html center position={[0, BASE_RADIUS * 5.5, 0]} zIndexRange={[10, 10]}>
+                    <div
+                        className="pointer-events-none select-none"
+                        style={{ transform: "translateX(-50%)", minWidth: "200px", maxWidth: "240px" }}
+                    >
+                        <div
+                            style={{
+                                background: "rgba(15, 23, 42, 0.92)",
+                                border: `1px solid ${meta.color}44`,
+                                borderRadius: "10px",
+                                padding: "10px 13px",
+                                boxShadow: `0 0 18px ${meta.color}33, 0 4px 24px rgba(0,0,0,0.6)`,
+                                backdropFilter: "blur(12px)",
+                            }}
+                        >
+                            <div
+                                style={{
+                                    color: meta.color,
+                                    fontSize: "10px",
+                                    fontWeight: 700,
+                                    letterSpacing: "0.12em",
+                                    textTransform: "uppercase",
+                                    marginBottom: "5px",
+                                    textShadow: `0 0 8px ${meta.color}`,
+                                }}
+                            >
+                                {meta.symbol} · {meta.name}
+                            </div>
+                            <div style={{ color: "#cbd5e1", fontSize: "11px", lineHeight: "1.55" }}>
+                                {description}
+                            </div>
+                        </div>
+                    </div>
+                </Html>
+            )}
         </group>
     );
 }
+
 

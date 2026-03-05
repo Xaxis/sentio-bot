@@ -13,10 +13,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-    title: "Qualia Bot — Modelling Consciousness",
+    title: "Sentio — Modelling Consciousness",
     description:
-        "Interactive 3D simulation of the Modelling Consciousness framework. Visualize how information integration, self-referential processing, temporal continuity, and behavioral complexity interact to produce emergent consciousness scores across 15 biological, artificial, and hybrid system archetypes.",
-    keywords: ["consciousness", "qualia", "IIT", "integrated information theory", "AI consciousness", "simulation", "3D", "qualia bot"],
+        "Interactive 3D simulation of the Modelling Consciousness framework. Visualize how information integration, self-referential processing, temporal continuity, and behavioral complexity interact to produce emergent consciousness scores across biological, artificial, and hybrid system archetypes.",
+    keywords: ["consciousness", "sentio", "IIT", "integrated information theory", "AI consciousness", "simulation", "3D", "modelling consciousness"],
     authors: [{ name: "Wil Neeley" }],
 };
 

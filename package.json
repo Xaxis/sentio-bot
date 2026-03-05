@@ -1,14 +1,22 @@
 {
-    "name": "qualia-bot",
+    "name": "sentio",
     "version": "1.0.0",
-    "description": "Qualia Bot — Interactive 3D consciousness dynamics simulator based on the Modelling Consciousness framework",
+    "description": "Sentio — Interactive 3D consciousness dynamics simulator based on the Modelling Consciousness framework",
+    "homepage": "https://sentio.bot",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/wilneeley/sentio.git"
+    },
     "private": true,
     "scripts": {
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "lint": "eslint src",
-        "typecheck": "tsc --noEmit"
+        "lint": "eslint",
+        "typecheck": "tsc --noEmit",
+        "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
+        "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
+        "export": "next build"
     },
     "dependencies": {
         "@react-three/drei": "^10.7.7",

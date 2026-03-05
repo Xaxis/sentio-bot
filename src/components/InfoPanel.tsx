@@ -27,15 +27,15 @@ export function InfoPanel() {
                     </h3>
                     <p className="text-slate-400 text-xs leading-relaxed">
                         A substrate-agnostic framework quantifying consciousness as an emergent property
-                        of four interacting <em className="text-slate-300">qualia criteria</em>. Systems
+                        of four interacting <em className="text-slate-300">sentio criteria</em>. Systems
                         are measured not by individual traits but by how those traits reinforce one another.
                     </p>
                 </div>
 
-                {/* Qualia Criteria */}
+                {/* Sentio Criteria */}
                 <div>
                     <h3 className="text-white text-xs font-semibold uppercase tracking-wider mb-2.5">
-                        The Four Qualia Criteria
+                        The Four Sentio Criteria
                     </h3>
                     <div className="space-y-2.5">
                         {CRITERIA.map(c => (
@@ -75,7 +75,7 @@ export function InfoPanel() {
                     <h3 className="text-white text-xs font-semibold uppercase tracking-wider mb-2">System Archetypes</h3>
                     <p className="text-xs text-slate-400 leading-relaxed mb-2.5">
                         15 systems span the consciousness spectrum — from a thermostat (C ≈ 0) to the human brain (C ≈ 1).
-                        Select any archetype in the Controls panel to load its scientifically grounded coupling matrix and initial qualia values.
+                        Select any archetype in the Controls panel to load its scientifically grounded coupling matrix and initial sentio values.
                     </p>
                     <div className="grid grid-cols-2 gap-x-3 gap-y-1">
                         {CASE_STUDIES.map(s => (
@@ -103,6 +103,9 @@ export function InfoPanel() {
                         <span>↗</span>
                         <span>Read the original article</span>
                     </a>
+                    <div className="text-[11px] text-slate-600 pt-1">
+                        Simulation by <span className="text-slate-500">Wil Neeley</span>
+                    </div>
                 </div>
             </div>
         </MinimizablePanel>

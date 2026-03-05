@@ -2,11 +2,11 @@
 
 import dynamic from "next/dynamic";
 
-const QualiaSimulator = dynamic(() => import("@/components/QualiaSimulator"), {
+const SentioSimulator = dynamic(() => import("@/components/SentioSimulator"), {
     ssr: false,
 });
 
 export default function Home() {
-    return <QualiaSimulator />;
+    return <SentioSimulator />;
 }
 

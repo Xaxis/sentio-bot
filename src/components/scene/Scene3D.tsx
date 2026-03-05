@@ -3,16 +3,17 @@
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { SimState } from "@/lib/types";
-import { QualiaGraph } from "./QualiaGraph";
+import { SentioGraph } from "./SentioGraph";
 import { ParticleField } from "./ParticleField";
 import { ConsciousnessRing } from "./ConsciousnessRing";
 
 interface Scene3DProps {
     simRef: React.MutableRefObject<SimState>;
     showLabels: boolean;
+    nodeDescriptions: [string, string, string, string];
 }
 
-export function Scene3D({ simRef, showLabels }: Scene3DProps) {
+export function Scene3D({ simRef, showLabels, nodeDescriptions }: Scene3DProps) {
     return (
         <Canvas
             camera={{
@@ -36,8 +37,8 @@ export function Scene3D({ simRef, showLabels }: Scene3DProps) {
             {/* Dynamic consciousness score ring */}
             <ConsciousnessRing simRef={simRef} />
 
-            {/* The 4-node qualia consciousness graph */}
-            <QualiaGraph simRef={simRef} showLabels={showLabels} />
+            {/* The 4-node sentio consciousness graph */}
+            <SentioGraph simRef={simRef} showLabels={showLabels} nodeDescriptions={nodeDescriptions} />
 
             {/* Camera controls */}
             <OrbitControls

@@ -3,17 +3,18 @@
 import { useFrame } from "@react-three/fiber";
 import { SimState } from "@/lib/types";
 import { CRITERIA, sigmoidInteraction } from "@/lib/simulation";
-import { QualiaNode } from "./QualiaNode";
-import { QualiaEdge } from "./QualiaEdge";
+import { SentioNode } from "./SentioNode";
+import { SentioEdge } from "./SentioEdge";
 import { useRef } from "react";
 import * as THREE from "three";
 
-interface QualiaGraphProps {
+interface SentioGraphProps {
     simRef: React.MutableRefObject<SimState>;
     showLabels: boolean;
+    nodeDescriptions: [string, string, string, string];
 }
 
-export function QualiaGraph({ simRef, showLabels }: QualiaGraphProps) {
+export function SentioGraph({ simRef, showLabels, nodeDescriptions }: SentioGraphProps) {
     const groupRef = useRef<THREE.Group>(null);
     const graphScaleRef = useRef(1);
 
@@ -55,7 +56,7 @@ export function QualiaGraph({ simRef, showLabels }: QualiaGraphProps) {
         <group ref={groupRef}>
             {/* Edges rendered first (behind nodes) */}
             {edges.map(({ from, to }) => (
-                <QualiaEdge
+                <SentioEdge
                     key={`edge-${from}-${to}`}
                     fromIndex={from}
                     toIndex={to}
@@ -69,12 +70,13 @@ export function QualiaGraph({ simRef, showLabels }: QualiaGraphProps) {
 
             {/* Nodes rendered on top */}
             {CRITERIA.map((meta, i) => (
-                <QualiaNode
+                <SentioNode
                     key={`node-${i}`}
                     index={i}
                     meta={meta}
                     simRef={simRef}
                     showLabels={showLabels}
+                    description={nodeDescriptions[i]}
                 />
             ))}
         </group>

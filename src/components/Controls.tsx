@@ -177,9 +177,9 @@ export function Controls({
                     {showLabels ? "Labels On" : "Labels Off"}
                 </button>
 
-                {/* ── Qualia Values ── */}
+                {/* ── Sentio Values ── */}
                 <div>
-                    <div className="text-xs uppercase tracking-wider text-slate-500 mb-2.5">Qualia Values Q_i</div>
+                    <div className="text-xs uppercase tracking-wider text-slate-500 mb-2.5">Sentio Values Q_i</div>
                     {CRITERIA.map((c, i) => (
                         <SliderRow
                             key={i}

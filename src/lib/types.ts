@@ -1,7 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 
 /**
- * Qualia criteria indices:
+ * Sentio criteria indices:
  * 0 = Φ (Phi)  - Information Integration
  * 1 = Ψ (Psi)  - Adaptive Self-Referential Processing
  * 2 = Θ (Theta) - Temporal Continuity
@@ -35,7 +35,7 @@ export interface SimState {
     isPlaying: boolean;
 }
 
-export type ArchetypeCategory = "minimal" | "invertebrate" | "vertebrate" | "artificial" | "hybrid";
+export type ArchetypeCategory = "minimal" | "invertebrate" | "vertebrate" | "artificial" | "hybrid" | "hypothetical";
 
 /** A named preset representing a system archetype */
 export interface CaseStudy {
@@ -44,6 +44,8 @@ export interface CaseStudy {
     label: string;          // Short label for buttons
     name: string;           // Full display name
     description: string;    // Explanation of the system
+    /** Per-node hover descriptions: [Φ, Ψ, Θ, Ω] */
+    nodeDescriptions: [string, string, string, string];
     category: ArchetypeCategory;
     initialQ: QValues;
     W: WMatrix;

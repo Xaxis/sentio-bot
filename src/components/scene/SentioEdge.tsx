@@ -8,7 +8,7 @@ import { sigmoidInteraction } from "@/lib/simulation";
 
 const PARTICLE_COUNT = 2; // flow particles per directed edge
 
-interface QualiaEdgeProps {
+interface SentioEdgeProps {
     fromIndex: number;
     toIndex: number;
     startPos: [number, number, number];
@@ -18,7 +18,7 @@ interface QualiaEdgeProps {
     simRef: React.MutableRefObject<SimState>;
 }
 
-export function QualiaEdge({ fromIndex, toIndex, startPos, endPos, fromColor, simRef }: QualiaEdgeProps) {
+export function SentioEdge({ fromIndex, toIndex, startPos, endPos, fromColor, simRef }: SentioEdgeProps) {
     const meshRef = useRef<THREE.Mesh>(null);
     const matRef = useRef<THREE.MeshStandardMaterial>(null);
 
@@ -66,8 +66,6 @@ export function QualiaEdge({ fromIndex, toIndex, startPos, endPos, fromColor, si
         }
 
         // ── Directional flow particles ──────────────────────────────────
-        // Travel from source → target. Speed/opacity scale with interaction
-        // strength. Source-coloured, so you can see "who drives whom".
         const fVal = sigmoidInteraction(Q[fromIndex], Q[toIndex], params.k, params.alpha);
         const strength = wij * fVal;
         const speed = 0.15 + strength * 0.8;
@@ -80,14 +78,10 @@ export function QualiaEdge({ fromIndex, toIndex, startPos, endPos, fromColor, si
             const mRef = matRefs[p];
             if (!pRef.current || !mRef.current) continue;
 
-            // Phase: offset each particle evenly so they don't bunch
             const phase = ((t * speed + p * (1 / PARTICLE_COUNT)) % 1 + 1) % 1;
             pRef.current.position.lerpVectors(startVec, endVec, phase);
-
-            // Size: bigger when stronger
             pRef.current.scale.setScalar(0.5 + strength * 1.5);
 
-            // Opacity: sin fade (0 at ends, peak in middle), overall strength-scaled
             const fade = Math.sin(phase * Math.PI);
             mRef.current.opacity = strength * 0.75 * fade;
             mRef.current.emissiveIntensity = 0.4 + strength * 2.5;
@@ -100,12 +94,7 @@ export function QualiaEdge({ fromIndex, toIndex, startPos, endPos, fromColor, si
     return (
         <>
             {/* Edge cylinder */}
-            <mesh
-                ref={meshRef}
-                position={position}
-                quaternion={quaternion}
-                scale={[1, length, 1]}
-            >
+            <mesh ref={meshRef} position={position} quaternion={quaternion} scale={[1, length, 1]}>
                 <cylinderGeometry args={[baseRadius, baseRadius, 1, 6, 1]} />
                 <meshStandardMaterial
                     ref={matRef}
@@ -120,28 +109,12 @@ export function QualiaEdge({ fromIndex, toIndex, startPos, endPos, fromColor, si
 
             {/* Flow particle 0 */}
             <mesh ref={p0Ref} geometry={particleGeo}>
-                <meshStandardMaterial
-                    ref={pMat0Ref}
-                    color={fromColor}
-                    emissive={fromColor}
-                    emissiveIntensity={1}
-                    transparent
-                    opacity={0}
-                    depthWrite={false}
-                />
+                <meshStandardMaterial ref={pMat0Ref} color={fromColor} emissive={fromColor} emissiveIntensity={1} transparent opacity={0} depthWrite={false} />
             </mesh>
 
             {/* Flow particle 1 */}
             <mesh ref={p1Ref} geometry={particleGeo}>
-                <meshStandardMaterial
-                    ref={pMat1Ref}
-                    color={fromColor}
-                    emissive={fromColor}
-                    emissiveIntensity={1}
-                    transparent
-                    opacity={0}
-                    depthWrite={false}
-                />
+                <meshStandardMaterial ref={pMat1Ref} color={fromColor} emissive={fromColor} emissiveIntensity={1} transparent opacity={0} depthWrite={false} />
             </mesh>
         </>
     );
